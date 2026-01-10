@@ -1,4 +1,4 @@
-from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr
+from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration
 from lexer import Token, TokenType
 
 
@@ -26,21 +26,43 @@ class Parser:
         tk = self.current_token()
         self.advance()
         return tk
+    
+    # Helper verifies token type is what's expected
+    def expect(self, token_type):
+        token = self.current_token()
 
+        if (token.type != token_type):
+            raise Exception(f"Expected {token_type}, got {token.type}")
+        
+        self.advance()
+        return token
 
     def produce_ast(self):
         program = Program()
 
         while self.not_eof():
             stmt = self.parse_stmt()
-            # stmt = "statements"
             program.body.append(stmt)
-            # self.advance()
 
         return program
     
     def parse_stmt(self):
-        return self.parse_expr()
+        match self.current_token().type:
+            # Will handle constants later
+            case TokenType.DECLARE:
+                return self.parse_var_declaration()
+            case _:
+                return self.parse_expr()
+    
+    def parse_var_declaration(self):
+        self.advance() # Through Keyword
+        identifier = self.expect(TokenType.IDENTIFIER)
+        self.expect(TokenType.EQUALS)
+
+        declaration = VarDeclaration(identifier, self.parse_expr())
+
+        self.expect(TokenType.SEMICOLON)
+        return declaration
     
     def parse_expr(self):
         return self.parse_additive_expr()
@@ -75,8 +97,6 @@ class Parser:
             left = BinaryExpr(left = left, right = right, operator = operator)
 
         return left
-
-
 
     def parse_primary_expr(self):
         token_type = self.current_token().type

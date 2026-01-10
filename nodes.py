@@ -4,6 +4,7 @@ class NodeType:
     # Statements
     PROGRAM = "PROGRAM"
     NUMERIC_LITERAL = "NUMERIC_LITERAL"
+    VAR_DECLARATION = "VAR_DECLARATION"
 
     # Expressions
     IDENTIFIER = "IDENTIFIER"
@@ -24,22 +25,30 @@ class Program(Node):
         self.body = []
     def __repr__(self):
         return f"Program(\n\t{self.body}\n)"
-
-class NumericLiteral(Node):
+    
+class VarDeclaration(Node):
+    def __init__(self, identifier, value):
+        super().__init__(NodeType.VAR_DECLARATION)
+        self.identifier = identifier
+        self.value = value
+    def __repr__(self):
+        return f"VarDeclaration({self.identifier} = {self.value})"
+    
+class NumericLiteral(Expression):
     def __init__(self, value):
         super().__init__(NodeType.NUMERIC_LITERAL)
         self.value = value
     def __repr__(self):
         return f"NumericLiteral({self.value})"
 
-class Identifier(Node):
+class Identifier(Expression):
     def __init__(self, symbol):
         super().__init__(NodeType.IDENTIFIER)
         self.symbol = symbol
     def __repr__(self):
         return f"Identifier({self.symbol!r})"
 
-class BinaryExpr(Node):
+class BinaryExpr(Expression):
     def __init__(self, left, right, operator):
         super().__init__(NodeType.BINARY_EXPR)
         self.left = left
