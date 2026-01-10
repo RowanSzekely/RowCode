@@ -14,16 +14,20 @@ class Program(Node):
         super().__init__(NodeType.PROGRAM)
         self.body = []
     def __repr__(self):
-        return f"Program({self.type}, {self.body})"
+        return f"Program({self.body})"
 
 class NumericLiteral(Node):
     def __init__(self, value):
         super().__init__(NodeType.NUMERIC_LITERAL)
         self.value = value
+    def __repr__(self):
+        return f"NumericLiteral({self.value})"
 
 class Identifier(Node):
-    def __init__(self, value):
+    def __init__(self, symbol):
         super().__init__(NodeType.IDENTIFIER)
-        self.value = value
+        self.symbol = symbol
+    def __repr__(self):
+        return f"Identifier({self.symbol!r})"
 
 
