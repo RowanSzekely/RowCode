@@ -2,7 +2,7 @@ from lexer import tokenize
 
 while True:
     try:
-        source = input("> ")
+        source = input("    > ")
         if (source == "" or source == "exit"):
             break
 
