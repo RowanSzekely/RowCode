@@ -1,14 +1,23 @@
 # Will have different NodeTypes starting with these
 class NodeType:
+
+    # Statements
     PROGRAM = "PROGRAM"
     NUMERIC_LITERAL = "NUMERIC_LITERAL"
+
+    # Expressions
     IDENTIFIER = "IDENTIFIER"
     BINARY_EXPR = "BINARY_EXPR"
 
+# For non-expression statements
 class Node:
     def __init__(self, type: NodeType):
         self.type = type
-
+    
+class Expression(Node):
+    def __init__(self, type: NodeType):
+        super().__init__(type)
+    
 class Program(Node):
     def __init__(self):
         super().__init__(NodeType.PROGRAM)

@@ -87,7 +87,16 @@ class Parser:
             case TokenType.NUMBER:
                 return NumericLiteral(int(self.cur_token_and_advance().value))
     
-            # Will handle Parens here too
+            case TokenType.OPEN_PAREN:
+                self.advance()
+                expr = self.parse_expr()
+
+                # Expects to see a close paren after parsing inner expr
+                if (self.current_token().type != TokenType.CLOSE_PAREN):
+                    raise Exception("Expected ')")
+                
+                self.advance() 
+                return expr
 
             case _:
                 raise Exception(f"Unexpected token: {self.current_token()}")
