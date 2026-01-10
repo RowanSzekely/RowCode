@@ -14,7 +14,7 @@ class Program(Node):
         super().__init__(NodeType.PROGRAM)
         self.body = []
     def __repr__(self):
-        return f"Program({self.body})"
+        return f"Program(\n\t{self.body}\n)"
 
 class NumericLiteral(Node):
     def __init__(self, value):
@@ -29,5 +29,14 @@ class Identifier(Node):
         self.symbol = symbol
     def __repr__(self):
         return f"Identifier({self.symbol!r})"
+
+class BinaryExpr(Node):
+    def __init__(self, left, right, operator):
+        super().__init__(NodeType.BINARY_EXPR)
+        self.left = left
+        self.right = right
+        self.operator = operator
+    def __repr__(self):
+        return f"BinaryExpr({self.left} {self.operator} {self.right})"
 
 

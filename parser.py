@@ -1,4 +1,4 @@
-from nodes import Node, NodeType, Program, NumericLiteral, Identifier
+from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr
 from lexer import Token, TokenType
 
 
@@ -40,7 +40,43 @@ class Parser:
         return program
     
     def parse_stmt(self):
-        return self.parse_primary_expr()
+        return self.parse_expr()
+    
+    def parse_expr(self):
+        return self.parse_additive_expr()
+    
+    def parse_additive_expr(self):
+        left = self.parse_multiplicative_expr()
+
+        while(
+            self.current_token().value == '+' or 
+            self.current_token().value == '-'
+            ):
+            operator = self.cur_token_and_advance().value
+
+            right = self.parse_multiplicative_expr()
+
+            left = BinaryExpr(left = left, operator = operator, right = right)
+        
+        return left
+    
+    def parse_multiplicative_expr(self):
+        left = self.parse_primary_expr()
+
+        while(
+            self.current_token().value == '*' or 
+            self.current_token().value == '/' or 
+            self.current_token().value == '%'
+            ):
+            operator = self.cur_token_and_advance().value
+
+            right = self.parse_primary_expr()
+        
+            left = BinaryExpr(left = left, right = right, operator = operator)
+
+        return left
+
+
 
     def parse_primary_expr(self):
         token_type = self.current_token().type
