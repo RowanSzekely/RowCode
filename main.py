@@ -1,4 +1,5 @@
 from lexer import tokenize
+from parser import Parser
 
 while True:
     try:
@@ -7,8 +8,9 @@ while True:
             break
 
         tokens = tokenize(source)
-        for t in tokens:
-            print(t)
-
+        parser = Parser(tokens)
+        ast = parser.produce_ast()
+        print(ast)
+        
     except Exception as e:
         print("Error:", e)

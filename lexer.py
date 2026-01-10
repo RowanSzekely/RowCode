@@ -114,7 +114,7 @@ def tokenize(source_code: str):
                 i += 1
 
             word = source[start:i]
-            # Checks if the word found is a keyword, otherwise it's and identifier
+            # Checks if the word found is a keyword, otherwise it's an identifier
             if (word in KEYWORDS):
                 tokens.append(Token(word, KEYWORDS[word]))
             else:
@@ -122,7 +122,7 @@ def tokenize(source_code: str):
 
             continue
 
-        # All character I haven't written a condition for
+        # All characters I haven't written conditions for
         raise Exception(f"Unexpected character: {c}")
 
     
