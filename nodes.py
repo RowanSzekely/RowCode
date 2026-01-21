@@ -9,6 +9,7 @@ class NodeType:
     # Expressions
     IDENTIFIER = "IDENTIFIER"
     BINARY_EXPR = "BINARY_EXPR"
+    ASSIGNMENT_EXPR = "ASSIGNMENT_EXPR"
 
 # For non-expression statements
 class Node:
@@ -56,5 +57,13 @@ class BinaryExpr(Expression):
         self.operator = operator
     def __repr__(self):
         return f"BinaryExpr({self.left} {self.operator} {self.right})"
+
+class AssignmentExpr(Expression):
+    def __init__(self, assignee, value):
+        super().__init__(NodeType.ASSIGNMENT_EXPR)
+        self.assignee = assignee
+        self.value = value
+    def __repr__(self):
+        return f"AssignmentExpr({self.assignee} = {self.value})"
 
 

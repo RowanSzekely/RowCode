@@ -14,6 +14,8 @@ def evaluate(node, env):
             return eval_identifier(node, env)
         case NodeType.VAR_DECLARATION:
             return eval_var_declaration(node, env)
+        case NodeType.ASSIGNMENT_EXPR:
+            return eval_assignment_expr(node, env)
         case _:
             raise Exception(f"No evaluation rule for {node.type}")
 
@@ -54,4 +56,9 @@ def eval_var_declaration(node, env):
 
 def eval_identifier(node, env):
     return env.lookup_var(node.symbol)
+
+def eval_assignment_expr(node, env):
+    value = evaluate(node.value, env)
+    env.assign_var(node.assignee.symbol, value)
+    return value
 

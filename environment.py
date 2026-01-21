@@ -11,6 +11,11 @@ class Environment:
 
         self.variables[name] = value
         return value
+    
+    def assign_var(self, name, value):
+        env = self.resolve(name)
+        env.variables[name] = value
+        return value
 
     def lookup_var(self, name):
         env = self.resolve(name)

@@ -1,4 +1,4 @@
-from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration
+from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration, AssignmentExpr
 from lexer import Token, TokenType
 
 
@@ -65,7 +65,17 @@ class Parser:
         return declaration
     
     def parse_expr(self):
-        return self.parse_additive_expr()
+        return self.parse_assignment_expr()
+    
+    def parse_assignment_expr(self):
+        left = self.parse_additive_expr()
+
+        if(self.current_token().type == TokenType.EQUALS):
+            self.advance()
+            value = self.parse_assignment_expr()
+            return AssignmentExpr(left, value)
+        
+        return left
     
     def parse_additive_expr(self):
         left = self.parse_multiplicative_expr()
