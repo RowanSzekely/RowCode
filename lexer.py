@@ -44,7 +44,22 @@ def tokenize(source_code: str):
         # Current character
         c = source[i]
 
-        # Will skip commented lines here
+        # Skip single-line comments
+        if (c == "/" and i + 1 < len(source) and source[i + 1] == "/"):
+            while (i < len(source) and source[i] != '\n'):
+                i += 1
+            continue
+
+        # Skip multi-line comments
+        if (c == '/' and i + 1 < len(source) and source[i + 1] == '*'):
+            while (i + 1 < len(source)):
+                if (source[i] == '*' and source[i + 1] == '/'):
+                    i += 2
+                    break
+                i += 1
+            else:
+                raise Exception("Must end multi-line comment")
+            continue
 
         # Skip whitespace
         if (c == " " or c == "\n" or c == "\t"):
