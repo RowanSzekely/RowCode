@@ -8,7 +8,7 @@ class NumberVal(RuntimeVal):
         self.value = value
 
     def __repr__(self):
-        return f"NumberVal({self.value})"
+        return str(self.value)
 
 class NullVal(RuntimeVal):
     def __init__(self):
@@ -17,4 +17,14 @@ class NullVal(RuntimeVal):
     def __repr__(self):
         return "Null"
 
-# Will add BoolVal
+class BoolVal(RuntimeVal):
+    def __init__(self, value):
+        super().__init__("boolean")
+        self.value = value
+
+    def __repr__(self):
+        return "true" if self.value else "false"
+
+TRUE = BoolVal(True)
+FALSE = BoolVal(False)
+NULL = NullVal()
