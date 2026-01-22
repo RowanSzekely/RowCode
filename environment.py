@@ -3,17 +3,21 @@ class Environment:
     def __init__(self, parent = None):
         self.parent = parent
         self.variables = {}
+        self.constants = set()
 
-    # Will probably need to do something for constant here
-    def declare_var(self, name, value):
+    def declare_var(self, name, value, isConst = False):
         if (name in self.variables):
             raise Exception(f"Cannot declare variable '{name}', it is already defined.")
 
         self.variables[name] = value
+        if(isConst):
+            self.constants.add(name)
         return value
     
     def assign_var(self, name, value):
         env = self.resolve(name)
+        if name in env.constants:
+            raise Exception(f"Cannot reassign constant '{name}'.")
         env.variables[name] = value
         return value
 

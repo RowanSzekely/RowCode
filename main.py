@@ -5,10 +5,10 @@ from environment import Environment
 from values import TRUE, FALSE, NULL
 
 env = Environment()
-# These need to be constants or they can be reassigned
-env.declare_var("true", TRUE)
-env.declare_var("false", FALSE)
-env.declare_var("null", NULL)
+
+env.declare_var("true", TRUE, True)
+env.declare_var("false", FALSE, True)
+env.declare_var("null", NULL, True)
 
 while True:
     try:

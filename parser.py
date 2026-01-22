@@ -48,18 +48,20 @@ class Parser:
     
     def parse_stmt(self):
         match self.current_token().type:
-            # Will handle constants later
             case TokenType.DECLARE:
+                return self.parse_var_declaration()
+            case TokenType.CONST:
                 return self.parse_var_declaration()
             case _:
                 return self.parse_expr()
     
     def parse_var_declaration(self):
+        isConst = self.current_token().type == TokenType.CONST
         self.advance() # Through Keyword
         identifier = self.expect(TokenType.IDENTIFIER)
         self.expect(TokenType.EQUALS)
 
-        declaration = VarDeclaration(identifier, self.parse_expr())
+        declaration = VarDeclaration(identifier, self.parse_expr(), isConst)
 
         self.expect(TokenType.SEMICOLON)
         return declaration

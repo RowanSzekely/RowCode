@@ -3,7 +3,6 @@ from values import NumberVal, NullVal
 
 def evaluate(node, env):
     match node.type:
-        # Will create seperate functions for evaluating program and future nodes
         case NodeType.PROGRAM:
             return eval_program(node, env)
         case NodeType.NUMERIC_LITERAL:
@@ -51,13 +50,16 @@ def eval_program(node, env):
 def eval_var_declaration(node, env):
 
     value = evaluate(node.value, env)
-    env.declare_var(node.identifier.value, value)
+    env.declare_var(node.identifier.value, value, node.isConst)
     return NullVal()
 
 def eval_identifier(node, env):
     return env.lookup_var(node.symbol)
 
 def eval_assignment_expr(node, env):
+    # To make sure something like (1+2) = 5 isn't allowed
+    if (node.assignee.type != NodeType.IDENTIFIER):
+        raise Exception("Invalid assignment target")
     value = evaluate(node.value, env)
     env.assign_var(node.assignee.symbol, value)
     return value

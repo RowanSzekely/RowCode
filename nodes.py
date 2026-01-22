@@ -28,12 +28,13 @@ class Program(Node):
         return f"Program(\n\t{self.body}\n)"
     
 class VarDeclaration(Node):
-    def __init__(self, identifier, value):
+    def __init__(self, identifier, value, isConst):
         super().__init__(NodeType.VAR_DECLARATION)
         self.identifier = identifier
         self.value = value
+        self.isConst = isConst
     def __repr__(self):
-        return f"VarDeclaration({self.identifier} = {self.value})"
+        return f"VarDeclaration({self.identifier} = {self.value}, isConst: {self.isConst})"
     
 class NumericLiteral(Expression):
     def __init__(self, value):
