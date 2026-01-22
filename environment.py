@@ -15,6 +15,7 @@ class Environment:
         return value
     
     def assign_var(self, name, value):
+        # Can assign variables from inner envs
         env = self.resolve(name)
         if name in env.constants:
             raise Exception(f"Cannot reassign constant '{name}'.")
@@ -22,6 +23,7 @@ class Environment:
         return value
 
     def lookup_var(self, name):
+        # Can lookup variables from inner envs
         env = self.resolve(name)
         return env.variables[name]
 

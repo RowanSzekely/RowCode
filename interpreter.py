@@ -1,5 +1,6 @@
 from nodes import Node, NodeType
 from values import NumberVal, NullVal
+from environment import Environment
 
 def evaluate(node, env):
     match node.type:
@@ -15,6 +16,8 @@ def evaluate(node, env):
             return eval_var_declaration(node, env)
         case NodeType.ASSIGNMENT_EXPR:
             return eval_assignment_expr(node, env)
+        case NodeType.BLOCK:
+            return eval_block(node, env)
         case _:
             raise Exception(f"No evaluation rule for {node.type}")
 
@@ -45,6 +48,15 @@ def eval_program(node, env):
     last = NullVal()
     for stmt in node.body:
         last = evaluate(stmt, env)
+    return last
+
+def eval_block(node, env):
+    # Creates a new env under the env the block was declared in
+    block_env = Environment(parent = env)
+
+    last = NullVal()
+    for stmt in node.body:
+        last = evaluate(stmt, block_env)
     return last
 
 def eval_var_declaration(node, env):

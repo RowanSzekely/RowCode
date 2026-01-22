@@ -5,6 +5,7 @@ class NodeType:
     PROGRAM = "PROGRAM"
     NUMERIC_LITERAL = "NUMERIC_LITERAL"
     VAR_DECLARATION = "VAR_DECLARATION"
+    BLOCK = "BLOCK"
 
     # Expressions
     IDENTIFIER = "IDENTIFIER"
@@ -35,7 +36,14 @@ class VarDeclaration(Node):
         self.isConst = isConst
     def __repr__(self):
         return f"VarDeclaration({self.identifier} = {self.value}, isConst: {self.isConst})"
-    
+
+class Block(Node):
+    def __init__(self, body):
+        super().__init__(NodeType.BLOCK)
+        self.body = body
+    def __repr__(self):
+        return f"Block({self.body})"
+
 class NumericLiteral(Expression):
     def __init__(self, value):
         super().__init__(NodeType.NUMERIC_LITERAL)

@@ -1,4 +1,4 @@
-from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration, AssignmentExpr
+from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration, AssignmentExpr, Block
 from lexer import Token, TokenType
 
 
@@ -52,11 +52,23 @@ class Parser:
                 return self.parse_var_declaration()
             case TokenType.CONST:
                 return self.parse_var_declaration()
+            case TokenType.OPEN_CURLY_PAREN:
+                return self.parse_block()
             case _:
                 expr = self.parse_expr()
                 self.expect(TokenType.SEMICOLON)
                 return expr
-            
+
+    def parse_block(self):
+        self.expect(TokenType.OPEN_CURLY_PAREN)
+        # self.advance()
+        body = []
+        while(self.current_token().type != TokenType.CLOSE_CURLY_PAREN):
+            body.append(self.parse_stmt())
+        self.expect(TokenType.CLOSE_CURLY_PAREN)
+        return Block(body)
+
+
     def parse_var_declaration(self):
         isConst = self.current_token().type == TokenType.CONST
         self.advance() # Through Keyword
