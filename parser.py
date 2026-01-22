@@ -53,8 +53,10 @@ class Parser:
             case TokenType.CONST:
                 return self.parse_var_declaration()
             case _:
-                return self.parse_expr()
-    
+                expr = self.parse_expr()
+                self.expect(TokenType.SEMICOLON)
+                return expr
+            
     def parse_var_declaration(self):
         isConst = self.current_token().type == TokenType.CONST
         self.advance() # Through Keyword
