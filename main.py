@@ -1,26 +1,45 @@
+import sys
 from lexer import tokenize
 from parser import Parser
 from interpreter import evaluate
 from environment import Environment
 from values import TRUE, FALSE, NULL
 
-env = Environment()
+def create_global_env():
+    env = Environment()
+    env.declare_var("true", TRUE, True)
+    env.declare_var("false", FALSE, True)
+    env.declare_var("null", NULL, True)
+    return env
 
-env.declare_var("true", TRUE, True)
-env.declare_var("false", FALSE, True)
-env.declare_var("null", NULL, True)
+env = create_global_env()
 
+def run(source, env):
+    tokens = tokenize(source)
+    parser = Parser(tokens)
+    ast = parser.produce_ast()
+    result = evaluate(ast, env)
+    return result
+
+# File Mode
+if (len(sys.argv) > 1):
+    filename = sys.argv[1]
+
+    with (open(filename, "r") as f):
+        source = f.read()
+
+    result = run(source, env)
+    print(result)
+    sys.exit(0)
+
+# REPL Mode
 while True:
     try:
         source = input("    > ")
         if (source == "" or source == "exit"):
             break
         
-        tokens = tokenize(source)
-        parser = Parser(tokens)
-        ast = parser.produce_ast()
-        # print(ast)
-        result = evaluate(ast, env)
+        result = run(source, env)
         print(result)
         
     except Exception as e:
