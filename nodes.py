@@ -47,12 +47,15 @@ class Block(Node):
         return f"Block({self.body})"
 
 class IfStmt(Node):
-    def __init__(self, condition, body):
+    def __init__(self, condition, body, elif_branches, else_block):
         super().__init__(NodeType.IF_STMT)
         self.condition = condition
         self.body = body
+        self.elif_branches = elif_branches
+        self.else_block = else_block
     def __repr__(self):
-        return f"IfStatement(if({self.condition}) -> ({self.body}))" # May change this
+        return f"IfStatement(if({self.condition}) -> ({self.body}))"
+        # I will change this to include elif/else blocks
 
 class NumericLiteral(Expression):
     def __init__(self, value):

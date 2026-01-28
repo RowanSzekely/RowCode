@@ -66,9 +66,25 @@ class Parser:
         self.expect(TokenType.OPEN_PAREN)
         condition = self.parse_expr()
         self.expect(TokenType.CLOSE_PAREN)
-
         body = self.parse_block()
-        return IfStmt(condition, body)
+
+        # Go through all elif statements
+        elifs = []
+        while (self.current_token().type == TokenType.ELIF):
+            self.advance()
+            self.expect(TokenType.OPEN_PAREN)
+            elif_condition = self.parse_expr()
+            self.expect(TokenType.CLOSE_PAREN)
+            elif_block = self.parse_block()
+            elifs.append((elif_condition, elif_block))
+        
+        # Else statement
+        else_block = None
+        if (self.current_token().type == TokenType.ELSE):
+            self.advance()
+            else_block = self.parse_block()
+
+        return IfStmt(condition, body, elifs, else_block)
 
 
     def parse_block(self):

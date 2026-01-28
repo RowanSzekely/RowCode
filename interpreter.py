@@ -68,9 +68,19 @@ def eval_if_stmt(node, env):
 
     if(condition.type != "boolean"):
         raise Exception("If condition must be a boolean")
-    
     if(condition.value):
-        return evaluate(node.body, env) # A new env was created when parse_block() was called
+        return evaluate(node.body, env) # A new env is created because eval_block() will be called
+    
+    for elif_condition, elif_block in node.elif_branches:
+        condition_val = evaluate(elif_condition, env)
+
+        if(condition_val.type != "boolean"):
+            raise Exception("Elif condition must be a boolean")
+        if(condition_val.value):
+            return evaluate(elif_block, env)
+        
+    if (node.else_block is not None):
+        return evaluate(node.else_block, env)
     
     return NullVal()
 
