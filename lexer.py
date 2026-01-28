@@ -25,6 +25,10 @@ class TokenType:
     DECLARE = "DECLARE"
     CONST = "CONST"
 
+    IF = "IF"
+    ELIF = "ELIF"
+    ELSE = "ELSE"
+
     EOF = "EOF"
 
 class Token:
@@ -37,6 +41,9 @@ class Token:
 KEYWORDS = {
     "declare": TokenType.DECLARE,
     "const": TokenType.CONST,
+    "if": TokenType.IF,
+    "elif": TokenType.ELIF,
+    "else": TokenType.ELSE,
 }
 
 # Takes in the sourcecode (a string) as input

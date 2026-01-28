@@ -18,6 +18,8 @@ def evaluate(node, env):
             return eval_assignment_expr(node, env)
         case NodeType.BLOCK:
             return eval_block(node, env)
+        case NodeType.IF_STMT:
+            return eval_if_stmt(node, env)
         case NodeType.COMPARISON_EXPR:
             return eval_comp_expr(node, env)
         case _:
@@ -60,6 +62,17 @@ def eval_block(node, env):
     for stmt in node.body:
         last = evaluate(stmt, block_env)
     return last
+
+def eval_if_stmt(node, env):
+    condition = evaluate(node.condition, env)
+
+    if(condition.type != "boolean"):
+        raise Exception("If condition must be a boolean")
+    
+    if(condition.value):
+        return evaluate(node.body, env) # A new env was created when parse_block() was called
+    
+    return NullVal()
 
 def eval_var_declaration(node, env):
 

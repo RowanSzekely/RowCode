@@ -1,4 +1,4 @@
-from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration, AssignmentExpr, Block, ComparisonExpr
+from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration, AssignmentExpr, Block, ComparisonExpr, IfStmt
 from lexer import Token, TokenType
 
 
@@ -52,12 +52,24 @@ class Parser:
                 return self.parse_var_declaration()
             case TokenType.CONST:
                 return self.parse_var_declaration()
+            case TokenType.IF:
+                return self.parse_if_statement()
             case TokenType.OPEN_CURLY_PAREN:
                 return self.parse_block()
             case _:
                 expr = self.parse_expr()
                 self.expect(TokenType.SEMICOLON)
                 return expr
+
+    def parse_if_statement(self):
+        self.expect(TokenType.IF)
+        self.expect(TokenType.OPEN_PAREN)
+        condition = self.parse_expr()
+        self.expect(TokenType.CLOSE_PAREN)
+
+        body = self.parse_block()
+        return IfStmt(condition, body)
+
 
     def parse_block(self):
         self.expect(TokenType.OPEN_CURLY_PAREN)

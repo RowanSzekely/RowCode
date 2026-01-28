@@ -6,6 +6,7 @@ class NodeType:
     NUMERIC_LITERAL = "NUMERIC_LITERAL"
     VAR_DECLARATION = "VAR_DECLARATION"
     BLOCK = "BLOCK"
+    IF_STMT = "IF_STMT"
 
     # Expressions
     IDENTIFIER = "IDENTIFIER"
@@ -44,6 +45,14 @@ class Block(Node):
         self.body = body
     def __repr__(self):
         return f"Block({self.body})"
+
+class IfStmt(Node):
+    def __init__(self, condition, body):
+        super().__init__(NodeType.IF_STMT)
+        self.condition = condition
+        self.body = body
+    def __repr__(self):
+        return f"IfStatement(if({self.condition}) -> ({self.body}))" # May change this
 
 class NumericLiteral(Expression):
     def __init__(self, value):
