@@ -1,4 +1,4 @@
-from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration, AssignmentExpr, Block
+from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration, AssignmentExpr, Block, ComparisonExpr
 from lexer import Token, TokenType
 
 
@@ -84,7 +84,7 @@ class Parser:
         return self.parse_assignment_expr()
     
     def parse_assignment_expr(self):
-        left = self.parse_additive_expr()
+        left = self.parse_comparison_expr()
 
         if(self.current_token().type == TokenType.EQUALS):
             self.advance()
@@ -92,6 +92,28 @@ class Parser:
             return AssignmentExpr(left, value)
         
         return left
+
+    # Comp Exprs are parsed here so something like 1 + 2 < 4 won't be treated as 1 + (2 < 4)
+    # and declare y = (x == 2) will succesfully set y to a bool value
+    def parse_comparison_expr(self):
+        left = self.parse_additive_expr()
+
+        while (self.current_token().type in 
+               (
+                   TokenType.EQUALS_EQUALS,
+                   TokenType.NOT_EQUALS,
+                   TokenType.GREATER_THAN,
+                   TokenType.LESS_THAN,
+                   TokenType.GREATER_THAN_OR_EQ,
+                   TokenType.LESS_THAN_OR_EQ,
+               )
+            ):
+            operator = self.cur_token_and_advance().value
+            right = self.parse_additive_expr()
+            left = ComparisonExpr(left, operator, right)
+        
+        return left
+
     
     def parse_additive_expr(self):
         left = self.parse_multiplicative_expr()

@@ -1,5 +1,5 @@
 from nodes import Node, NodeType
-from values import NumberVal, NullVal
+from values import NumberVal, NullVal, BoolVal
 from environment import Environment
 
 def evaluate(node, env):
@@ -18,6 +18,8 @@ def evaluate(node, env):
             return eval_assignment_expr(node, env)
         case NodeType.BLOCK:
             return eval_block(node, env)
+        case NodeType.COMPARISON_EXPR:
+            return eval_comp_expr(node, env)
         case _:
             raise Exception(f"No evaluation rule for {node.type}")
 
@@ -76,3 +78,22 @@ def eval_assignment_expr(node, env):
     env.assign_var(node.assignee.symbol, value)
     return value
 
+def eval_comp_expr(node, env):
+    left = evaluate(node.left, env)
+    right = evaluate(node.right, env)
+
+    if (left.type != right.type):
+        raise Exception("Cannot compare values of different types")
+    
+    if node.operator == "==":
+        return BoolVal(left.value == right.value)
+    if node.operator == "!=":
+        return BoolVal(left.value != right.value)
+    if node.operator == ">":
+        return BoolVal(left.value > right.value)
+    if node.operator == ">=":
+        return BoolVal(left.value >= right.value)
+    if node.operator == "<":
+        return BoolVal(left.value < right.value)
+    if node.operator == "<=":
+        return BoolVal(left.value <= right.value)

@@ -7,6 +7,14 @@ class TokenType:
     SEMICOLON = "SEMICOLON"
 
     EQUALS = "EQUALS"
+
+    EQUALS_EQUALS = "EQUALS_EQUALS"
+    NOT_EQUALS = "NOT_EQUALS"
+    GREATER_THAN = "GREATER_THAN"
+    LESS_THAN = "LESS_THAN"
+    GREATER_THAN_OR_EQ = "GREATER_THAN_OR_EQ"
+    LESS_THAN_OR_EQ = "LESS_THAN_OR_EQ"
+
     OPEN_PAREN = "OPEN_PAREN"
     CLOSE_PAREN = "CLOSE_PAREN"
     OPEN_SQR_PAREN = "OPEN_SQR_PAREN"
@@ -72,8 +80,17 @@ def tokenize(source_code: str):
             continue
 
         if (c == '='):
+            if (i + 1 < len(source) and source[i + 1] == '='):
+                tokens.append(Token("==", TokenType.EQUALS_EQUALS))
+                i += 2
+                continue
             tokens.append(Token(c, TokenType.EQUALS))
             i += 1
+            continue
+
+        if (c == '!' and i + 1 < len(source) and source[i + 1] == '='):
+            tokens.append(Token("!=", TokenType.NOT_EQUALS))
+            i += 2
             continue
 
         if (c == ';'):
@@ -110,6 +127,24 @@ def tokenize(source_code: str):
             tokens.append(Token(c, TokenType.CLOSE_CURLY_PAREN))
             i += 1
             continue
+
+        if (c == '>'):
+            if (i + 1 < len(source) and source[i + 1] == '='):
+                tokens.append(Token(">=", TokenType.GREATER_THAN_OR_EQ))
+                i += 2
+                continue
+            tokens.append(Token(c, TokenType.GREATER_THAN))
+            i += 1
+            continue
+        
+        if (c == '<'):
+            if (i + 1 < len(source) and source[i + 1] == '='):
+                tokens.append(Token("<=", TokenType.LESS_THAN_OR_EQ))
+                i += 2
+                continue
+            tokens.append(Token(c, TokenType.LESS_THAN))
+            i += 1
+            continue        
 
 
         # If it's an integer, add NUMBER Token

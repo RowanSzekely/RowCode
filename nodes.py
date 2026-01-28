@@ -11,6 +11,7 @@ class NodeType:
     IDENTIFIER = "IDENTIFIER"
     BINARY_EXPR = "BINARY_EXPR"
     ASSIGNMENT_EXPR = "ASSIGNMENT_EXPR"
+    COMPARISON_EXPR = "COMPARISON_EXPR"
 
 # For non-expression statements
 class Node:
@@ -74,5 +75,15 @@ class AssignmentExpr(Expression):
         self.value = value
     def __repr__(self):
         return f"AssignmentExpr({self.assignee} = {self.value})"
+    
+class ComparisonExpr(Expression):
+    def __init__(self, left, operator, right):
+        super().__init__(NodeType.COMPARISON_EXPR)
+        self.left = left
+        self.operator = operator
+        self.right = right
+    def __repr__(self):
+        return f"ComparisonExpr({self.left} == {self.right})"
+        
 
 
