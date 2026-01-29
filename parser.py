@@ -1,4 +1,4 @@
-from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration, AssignmentExpr, Block, ComparisonExpr, IfStmt, FunctionDeclaration, CallExpr
+from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration, AssignmentExpr, Block, ComparisonExpr, IfStmt, FunctionDeclaration, CallExpr, WhileLoop
 from lexer import Token, TokenType
 
 
@@ -48,6 +48,8 @@ class Parser:
     
     def parse_stmt(self):
         match self.current_token().type:
+            case TokenType.WHILE:
+                return self.parse_while_loop()
             case TokenType.FDECLARE:
                 return self.parse_function_declaration()
             case TokenType.DECLARE:
@@ -79,6 +81,16 @@ class Parser:
 
         body = self.parse_block()
         return FunctionDeclaration(name, params, body)
+    
+    def parse_while_loop(self):
+        self.expect(TokenType.WHILE)
+        self.expect(TokenType.OPEN_PAREN)
+        condition = self.parse_expr()
+        self.expect(TokenType.CLOSE_PAREN)
+        body = self.parse_block()
+
+        return WhileLoop(condition, body)
+
 
     def parse_if_statement(self):
         self.expect(TokenType.IF)

@@ -30,6 +30,8 @@ class TokenType:
     ELIF = "ELIF"
     ELSE = "ELSE"
 
+    WHILE = "WHILE"
+
     FDECLARE = "FDECLARE"
 
     EOF = "EOF"
@@ -48,6 +50,7 @@ KEYWORDS = {
     "elif": TokenType.ELIF,
     "else": TokenType.ELSE,
     "fdeclare": TokenType.FDECLARE,
+    "while": TokenType.WHILE,
 }
 
 # Takes in the sourcecode (a string) as input

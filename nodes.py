@@ -8,6 +8,7 @@ class NodeType:
     BLOCK = "BLOCK"
     IF_STMT = "IF_STMT"
     FUNCTION_DECLARATION = "FUNCTION_DECLARATION"
+    WHILE_LOOP = "WHILE_LOOP"
 
     # Expressions
     IDENTIFIER = "IDENTIFIER"
@@ -31,6 +32,13 @@ class Program(Node):
         self.body = []
     def __repr__(self):
         return f"Program(\n\t{self.body}\n)"
+
+class WhileLoop(Node):
+    def __init__(self, condition, body):
+        super().__init__(NodeType.WHILE_LOOP)
+        self.condition = condition
+        self.body = body
+    # repr
     
 class FunctionDeclaration(Node):
     def __init__(self, name, params, body):

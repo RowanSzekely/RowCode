@@ -20,6 +20,8 @@ def evaluate(node, env):
             return eval_block(node, env)
         case NodeType.IF_STMT:
             return eval_if_stmt(node, env)
+        case NodeType.WHILE_LOOP:
+            return eval_while_loop(node, env)
         case NodeType.COMPARISON_EXPR:
             return eval_comp_expr(node, env)
         case NodeType.FUNCTION_DECLARATION:
@@ -93,6 +95,19 @@ def eval_if_stmt(node, env):
         return evaluate(node.else_block, env)
     
     return NullVal()
+
+def eval_while_loop(node, env):
+    result = NullVal()
+
+    while True:
+        condition = evaluate(node.condition, env)
+
+        if (condition.type != "boolean"):
+            raise Exception("While condition must be a boolean")
+        if (not condition.value):
+            break
+        result = evaluate(node.body, env)
+    return result
 
 def eval_var_declaration(node, env):
 
