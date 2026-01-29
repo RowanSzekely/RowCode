@@ -25,6 +25,17 @@ class BoolVal(RuntimeVal):
     def __repr__(self):
         return "true" if self.value else "false"
 
+class FunctionVal(RuntimeVal):
+    def __init__(self, params, body, env):
+        super().__init__("function")
+        self.params = params
+        self.body = body
+        # This is the env from when the function was created
+        self.env = env
+    
+    def __repr__(self):
+        return "Function"
+
 TRUE = BoolVal(True)
 FALSE = BoolVal(False)
 NULL = NullVal()

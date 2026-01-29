@@ -1,4 +1,4 @@
-from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration, AssignmentExpr, Block, ComparisonExpr, IfStmt
+from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration, AssignmentExpr, Block, ComparisonExpr, IfStmt, FunctionDeclaration, CallExpr
 from lexer import Token, TokenType
 
 
@@ -48,6 +48,8 @@ class Parser:
     
     def parse_stmt(self):
         match self.current_token().type:
+            case TokenType.FDECLARE:
+                return self.parse_function_declaration()
             case TokenType.DECLARE:
                 return self.parse_var_declaration()
             case TokenType.CONST:
@@ -60,6 +62,23 @@ class Parser:
                 expr = self.parse_expr()
                 self.expect(TokenType.SEMICOLON)
                 return expr
+    
+    def parse_function_declaration(self):
+        self.expect(TokenType.FDECLARE)
+        name = self.expect(TokenType.IDENTIFIER).value
+
+        self.expect(TokenType.OPEN_PAREN)
+        params = []
+
+        if (self.current_token().type != TokenType.CLOSE_PAREN):
+            params.append(self.expect(TokenType.IDENTIFIER).value)
+            while(self.current_token().type == TokenType.COMMA):
+                self.advance()
+                params.append(self.expect(TokenType.IDENTIFIER).value)
+        self.expect(TokenType.CLOSE_PAREN)
+
+        body = self.parse_block()
+        return FunctionDeclaration(name, params, body)
 
     def parse_if_statement(self):
         self.expect(TokenType.IF)
@@ -179,7 +198,21 @@ class Parser:
 
         match token_type:
             case TokenType.IDENTIFIER:
-                return Identifier(self.cur_token_and_advance().value)
+                identifier = Identifier(self.cur_token_and_advance().value)
+
+                if(self.current_token().type == TokenType.OPEN_PAREN):
+                    self.advance()
+                    args = []
+
+                    if (self.current_token().type != TokenType.CLOSE_PAREN):
+                        args.append(self.parse_expr())
+                        while(self.current_token().type == TokenType.COMMA):
+                            self.advance()
+                            args.append(self.parse_expr())
+                    self.expect(TokenType.CLOSE_PAREN)
+                    return CallExpr(identifier, args)
+                return identifier
+            
             case TokenType.NUMBER:
                 return NumericLiteral(int(self.cur_token_and_advance().value))
     

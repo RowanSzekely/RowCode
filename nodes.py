@@ -7,12 +7,14 @@ class NodeType:
     VAR_DECLARATION = "VAR_DECLARATION"
     BLOCK = "BLOCK"
     IF_STMT = "IF_STMT"
+    FUNCTION_DECLARATION = "FUNCTION_DECLARATION"
 
     # Expressions
     IDENTIFIER = "IDENTIFIER"
     BINARY_EXPR = "BINARY_EXPR"
     ASSIGNMENT_EXPR = "ASSIGNMENT_EXPR"
     COMPARISON_EXPR = "COMPARISON_EXPR"
+    CALL_EXPR = "CALL_EXPR"
 
 # For non-expression statements
 class Node:
@@ -29,6 +31,14 @@ class Program(Node):
         self.body = []
     def __repr__(self):
         return f"Program(\n\t{self.body}\n)"
+    
+class FunctionDeclaration(Node):
+    def __init__(self, name, params, body):
+        super().__init__(NodeType.FUNCTION_DECLARATION)
+        self.name = name
+        self.params = params
+        self.body = body
+    # repr
     
 class VarDeclaration(Node):
     def __init__(self, identifier, value, isConst):
@@ -56,6 +66,13 @@ class IfStmt(Node):
     def __repr__(self):
         return f"IfStatement(if({self.condition}) -> ({self.body}))"
         # I will change this to include elif/else blocks
+
+class CallExpr(Expression):
+    def __init__(self, callee, args):
+        super().__init__(NodeType.CALL_EXPR)
+        self.callee = callee
+        self.args = args
+    #repr
 
 class NumericLiteral(Expression):
     def __init__(self, value):

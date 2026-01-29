@@ -5,6 +5,7 @@ class TokenType:
     BINARY_OPERATOR = "BINARY_OPERATOR"
 
     SEMICOLON = "SEMICOLON"
+    COMMA = "COMMA"
 
     EQUALS = "EQUALS"
 
@@ -29,6 +30,8 @@ class TokenType:
     ELIF = "ELIF"
     ELSE = "ELSE"
 
+    FDECLARE = "FDECLARE"
+
     EOF = "EOF"
 
 class Token:
@@ -44,6 +47,7 @@ KEYWORDS = {
     "if": TokenType.IF,
     "elif": TokenType.ELIF,
     "else": TokenType.ELSE,
+    "fdeclare": TokenType.FDECLARE,
 }
 
 # Takes in the sourcecode (a string) as input
@@ -150,6 +154,11 @@ def tokenize(source_code: str):
                 i += 2
                 continue
             tokens.append(Token(c, TokenType.LESS_THAN))
+            i += 1
+            continue
+
+        if (c == ','):
+            tokens.append(Token(c, TokenType.COMMA))
             i += 1
             continue        
 

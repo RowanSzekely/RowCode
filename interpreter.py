@@ -1,5 +1,5 @@
 from nodes import Node, NodeType
-from values import NumberVal, NullVal, BoolVal
+from values import NumberVal, NullVal, BoolVal, FunctionVal
 from environment import Environment
 
 def evaluate(node, env):
@@ -22,6 +22,10 @@ def evaluate(node, env):
             return eval_if_stmt(node, env)
         case NodeType.COMPARISON_EXPR:
             return eval_comp_expr(node, env)
+        case NodeType.FUNCTION_DECLARATION:
+            return eval_function_decl(node, env)
+        case NodeType.CALL_EXPR:
+            return eval_call_expr(node, env)
         case _:
             raise Exception(f"No evaluation rule for {node.type}")
 
@@ -63,6 +67,12 @@ def eval_block(node, env):
         last = evaluate(stmt, block_env)
     return last
 
+def eval_function_decl(node, env):
+    # Create a new FunctionVal in env
+    fn = FunctionVal(node.params, node.body, env)
+    env.declare_var(node.name, fn, True)
+    return NullVal()
+
 def eval_if_stmt(node, env):
     condition = evaluate(node.condition, env)
 
@@ -100,6 +110,44 @@ def eval_assignment_expr(node, env):
     value = evaluate(node.value, env)
     env.assign_var(node.assignee.symbol, value)
     return value
+
+def eval_call_expr(node, env):
+    # env is where the function is called
+    # fn.env is where the function was defined
+    # call_env will be a new env created for each call
+
+    # Get the FunctionVal
+    fn = evaluate(node.callee, env)
+
+    if (fn.type != "function"):
+        raise Exception("Can only call functions")
+
+    if (len(node.args) != len(fn.params)):
+        raise Exception("Incorrect number of arguments")
+
+    # An env to hold local variables and params
+    call_env = Environment(parent=fn.env)
+
+    # Setting up the params
+    i = 0
+    while (i < len(fn.params)):
+        param = fn.params[i]
+        arg = node.args[i]
+
+        # We use the env with the variables available when the function was called (env)
+        # The params will be kept in the local env (call_env)
+        value = evaluate(arg, env)
+        call_env.declare_var(param, value)
+
+        i += 1
+
+    result = NullVal()
+    # eval_block() creates a new env so I'll avoid using it
+    for stmt in fn.body.body:
+        # The function body runs in the local env (call_env), not the caller's env (env)
+        result = evaluate(stmt, call_env)
+
+    return result
 
 def eval_comp_expr(node, env):
     left = evaluate(node.left, env)
