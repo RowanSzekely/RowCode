@@ -98,16 +98,35 @@ def eval_if_stmt(node, env):
 
 def eval_while_loop(node, env):
     result = NullVal()
+    condition = evaluate(node.condition, env)
 
-    while True:
-        condition = evaluate(node.condition, env)
+    if (condition.type == "boolean"):
+        while True:
+            condition = evaluate(node.condition, env)
 
-        if (condition.type != "boolean"):
-            raise Exception("While condition must be a boolean")
-        if (not condition.value):
-            break
-        result = evaluate(node.body, env)
-    return result
+            if (condition.type != "boolean"):
+                raise Exception("While condition must be a boolean")
+            if (not condition.value):
+                break
+            result = evaluate(node.body, env)
+    
+        return result
+    
+    # while(n){} will run the loop n times (even if n is modified during the loop)
+    if (condition.type == "number"):
+        iterations = condition.value
+
+        if (iterations < 0):
+            raise Exception("While loop input must be positive")
+
+        i = 0
+        while (i < iterations):
+            result = evaluate(node.body, env)
+            i += 1
+
+        return result
+
+    raise Exception("While condition must be a boolean or a number")
 
 def eval_var_declaration(node, env):
 
