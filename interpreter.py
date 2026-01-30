@@ -197,6 +197,14 @@ def eval_comp_expr(node, env):
     left = evaluate(node.left, env)
     right = evaluate(node.right, env)
 
+    # Comparisons with null (which doesn't have a .value)
+    if (left.type == "null" or right.type == "null"):
+        if (node.operator == "=="):
+            return BoolVal(left.type == "null" and right.type == "null")
+        if (node.operator == "!="):
+            return BoolVal(not (left.type == "null" and right.type == "null"))
+        raise Exception(f"Cannot compare null {right.type} with {left.type}")
+
     if (left.type != right.type):
         raise Exception("Cannot compare values of different types")
     
