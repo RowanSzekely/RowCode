@@ -34,7 +34,17 @@ RowScript currently supports:
 - **Binary arithmetic**
   - `+`, `-`, `*`, `/`, `%`
   - Example:
+    ```
     declare sum = 1 + 2 * 3;
+    ```
+  
+- **Unary operations**
+  - `-`, `!`
+  - Example (In this example sum is set to -20 and x to false):
+    ```
+    declare sum = -10 * 2;
+    declare x = !true;
+    ```
 
 - **Comparisons**
   - `==`, `!=`, `<`, `<=`, `>`, `>=`
