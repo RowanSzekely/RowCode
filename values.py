@@ -15,7 +15,7 @@ class NullVal(RuntimeVal):
         super().__init__("null")
         
     def __repr__(self):
-        return "Null"
+        return "null"
 
 class BoolVal(RuntimeVal):
     def __init__(self, value):

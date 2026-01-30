@@ -7,5 +7,5 @@ def native_print(args, env):
     for arg in args:
         output.append(str(arg))
 
-    print(" ".join(output))
+    print("".join(output))
     return NullVal()
