@@ -153,6 +153,14 @@ def eval_call_expr(node, env):
     # Get the FunctionVal
     fn = evaluate(node.callee, env)
 
+    # Native functions
+    if (fn.type == "native_function"):
+        args = []
+        for arg in node.args:
+            value = evaluate(arg, env)
+            args.append(value)
+        return fn.fn(args, env)
+
     if (fn.type != "function"):
         raise Exception("Can only call functions")
 

@@ -3,13 +3,17 @@ from lexer import tokenize
 from parser import Parser
 from interpreter import evaluate
 from environment import Environment
-from values import TRUE, FALSE, NULL
+from values import TRUE, FALSE, NULL, NativeFunctionVal
+
+# def test_native_function(args, env):
+#     return 123456
 
 def create_global_env():
     env = Environment()
     env.declare_var("true", TRUE, True)
     env.declare_var("false", FALSE, True)
     env.declare_var("null", NULL, True)
+    # env.declare_var("print", NativeFunctionVal(test_native_function), True)
     return env
 
 env = create_global_env()

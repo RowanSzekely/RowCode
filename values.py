@@ -35,6 +35,11 @@ class FunctionVal(RuntimeVal):
     
     def __repr__(self):
         return "Function"
+    
+class NativeFunctionVal(RuntimeVal):
+    def __init__(self, fn):
+        super().__init__("native_function")
+        self.fn = fn
 
 TRUE = BoolVal(True)
 FALSE = BoolVal(False)
