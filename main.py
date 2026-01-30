@@ -4,16 +4,14 @@ from parser import Parser
 from interpreter import evaluate
 from environment import Environment
 from values import TRUE, FALSE, NULL, NativeFunctionVal
-
-# def test_native_function(args, env):
-#     return 123456
+from native_functions import native_print
 
 def create_global_env():
     env = Environment()
     env.declare_var("true", TRUE, True)
     env.declare_var("false", FALSE, True)
     env.declare_var("null", NULL, True)
-    # env.declare_var("print", NativeFunctionVal(test_native_function), True)
+    env.declare_var("print", NativeFunctionVal(native_print), True)
     return env
 
 env = create_global_env()
@@ -33,7 +31,7 @@ if (len(sys.argv) > 1):
         source = f.read()
 
     result = run(source, env)
-    print(result)
+    # print(result)
     sys.exit(0)
 
 # REPL Mode
@@ -44,7 +42,7 @@ while True:
             break
         
         result = run(source, env)
-        print(result)
+        # print(result)
         
     except Exception as e:
         print("Error:", e)
