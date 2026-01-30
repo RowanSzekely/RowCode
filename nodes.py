@@ -17,6 +17,7 @@ class NodeType:
     ASSIGNMENT_EXPR = "ASSIGNMENT_EXPR"
     COMPARISON_EXPR = "COMPARISON_EXPR"
     CALL_EXPR = "CALL_EXPR"
+    UNARY_EXPR = "UNARY_EXPR"
 
 # For non-expression statements
 class Node:
@@ -79,6 +80,14 @@ class IfStmt(Node):
             f"IfStmt(if={self.condition} -> {self.body}, "
             f"elif={self.elif_branches}, else={self.else_block})"
         )
+    
+class UnaryExpr(Expression):
+    def __init__(self, operator, operand):
+        super().__init__(NodeType.UNARY_EXPR)
+        self.operator = operator
+        self.operand = operand
+    def __repr__(self):
+        return f"UnaryExpr({self.operator} {self.operand})"
 
 class CallExpr(Expression):
     def __init__(self, callee, args):

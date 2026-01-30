@@ -25,6 +25,18 @@ def eval_binary_expr(node, env):
     
     raise Exception(f"Unknown operator {node.operator}")
 
+def eval_unary_expr(node, env):
+    from .interpreter import evaluate
+
+    operand = evaluate(node.operand, env)
+
+    if (node.operator == "-"):
+        if (operand.type != "number"):
+            raise Exception("Unary '-' expects a number")
+        return NumberVal(-operand.value)
+
+    raise Exception(f"Unknown unary operator {node.operator}")
+
 def eval_assignment_expr(node, env):
     from .interpreter import evaluate
 

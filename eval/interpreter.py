@@ -2,7 +2,7 @@ from nodes import NodeType
 from values import NumberVal, StringVal
 from .expressions import (
     eval_comp_expr, eval_assignment_expr, eval_binary_expr, 
-    eval_call_expr, eval_identifier
+    eval_call_expr, eval_identifier, eval_unary_expr
     )
 from .statements import (
     eval_program, eval_if_stmt, eval_block, eval_function_decl, 
@@ -19,6 +19,8 @@ def evaluate(node, env):
             return StringVal(node.value)
         case NodeType.BINARY_EXPR:
             return eval_binary_expr(node, env)
+        case NodeType.UNARY_EXPR:
+            return eval_unary_expr(node, env)
         case NodeType.IDENTIFIER:
             return eval_identifier(node, env)
         case NodeType.VAR_DECLARATION:

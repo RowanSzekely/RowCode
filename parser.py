@@ -1,4 +1,9 @@
-from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration, AssignmentExpr, Block, ComparisonExpr, IfStmt, FunctionDeclaration, CallExpr, WhileLoop, StringLiteral
+from nodes import (
+    Program, NumericLiteral, Identifier, BinaryExpr, 
+    VarDeclaration, AssignmentExpr, Block, ComparisonExpr, 
+    IfStmt, FunctionDeclaration, CallExpr, WhileLoop, 
+    StringLiteral, UnaryExpr
+    )
 from lexer import Token, TokenType
 
 
@@ -190,7 +195,7 @@ class Parser:
         return left
     
     def parse_multiplicative_expr(self):
-        left = self.parse_primary_expr()
+        left = self.parse_unary_expr()
 
         while(
             self.current_token().value == '*' or 
@@ -199,11 +204,19 @@ class Parser:
             ):
             operator = self.cur_token_and_advance().value
 
-            right = self.parse_primary_expr()
+            right = self.parse_unary_expr()
         
             left = BinaryExpr(left = left, right = right, operator = operator)
 
         return left
+    
+    def parse_unary_expr(self):
+        if (self.current_token().value == '-'):
+            operator = self.cur_token_and_advance().value
+            operand = self.parse_unary_expr()
+            return UnaryExpr(operator, operand)
+
+        return self.parse_primary_expr()
 
     def parse_primary_expr(self):
         token_type = self.current_token().type

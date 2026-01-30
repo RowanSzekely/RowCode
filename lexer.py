@@ -3,7 +3,7 @@ class TokenType:
     NUMBER = "NUMBER"
     STRING = "STRING"
     IDENTIFIER = "IDENTIFIER"
-    BINARY_OPERATOR = "BINARY_OPERATOR"
+    OPERATOR = "OPERATOR"
 
     SEMICOLON = "SEMICOLON"
     COMMA = "COMMA"
@@ -90,7 +90,7 @@ def tokenize(source_code: str):
             continue
 
         if (c == '+' or c == '-' or c == '*' or c == '/' or c == '%'):
-            tokens.append(Token(c, TokenType.BINARY_OPERATOR))
+            tokens.append(Token(c, TokenType.OPERATOR))
             i += 1
             continue
 
