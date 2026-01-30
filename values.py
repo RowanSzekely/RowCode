@@ -38,16 +38,19 @@ class FunctionVal(RuntimeVal):
         super().__init__("function")
         self.params = params
         self.body = body
-        # This is the env from when the function was created
+        # This is the env where the function was created
         self.env = env
     
     def __repr__(self):
-        return "Function"
+        return f"<function params={self.params}>"
     
 class NativeFunctionVal(RuntimeVal):
     def __init__(self, fn):
         super().__init__("native_function")
         self.fn = fn
+
+    def __repr__(self):
+        return "<native function>"
 
 TRUE = BoolVal(True)
 FALSE = BoolVal(False)

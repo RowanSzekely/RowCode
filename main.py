@@ -20,6 +20,7 @@ def run(source, env):
     tokens = tokenize(source)
     parser = Parser(tokens)
     ast = parser.produce_ast()
+    # print(ast)
     result = evaluate(ast, env)
     return result
 

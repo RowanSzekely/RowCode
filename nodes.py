@@ -32,14 +32,15 @@ class Program(Node):
         super().__init__(NodeType.PROGRAM)
         self.body = []
     def __repr__(self):
-        return f"Program(\n\t{self.body}\n)"
+        return f"Program(body={self.body})"
 
 class WhileLoop(Node):
     def __init__(self, condition, body):
         super().__init__(NodeType.WHILE_LOOP)
         self.condition = condition
         self.body = body
-    # repr
+    def __repr__(self):
+        return f"WhileLoop(condition={self.condition}, body={self.body})"
     
 class FunctionDeclaration(Node):
     def __init__(self, name, params, body):
@@ -47,7 +48,8 @@ class FunctionDeclaration(Node):
         self.name = name
         self.params = params
         self.body = body
-    # repr
+    def __repr__(self):
+        return f"FunctionDeclaration(name={self.name}, params={self.params}, body={self.body})"
     
 class VarDeclaration(Node):
     def __init__(self, identifier, value, isConst):
@@ -56,14 +58,14 @@ class VarDeclaration(Node):
         self.value = value
         self.isConst = isConst
     def __repr__(self):
-        return f"VarDeclaration({self.identifier} = {self.value}, isConst: {self.isConst})"
+        return f"VarDeclaration({self.identifier} = {self.value}, isConst={self.isConst})"
 
 class Block(Node):
     def __init__(self, body):
         super().__init__(NodeType.BLOCK)
         self.body = body
     def __repr__(self):
-        return f"Block({self.body})"
+        return f"Block(body={self.body})"
 
 class IfStmt(Node):
     def __init__(self, condition, body, elif_branches, else_block):
@@ -73,15 +75,18 @@ class IfStmt(Node):
         self.elif_branches = elif_branches
         self.else_block = else_block
     def __repr__(self):
-        return f"IfStatement(if({self.condition}) -> ({self.body}))"
-        # I will change this to include elif/else blocks
+        return (
+            f"IfStmt(if={self.condition} -> {self.body}, "
+            f"elif={self.elif_branches}, else={self.else_block})"
+        )
 
 class CallExpr(Expression):
     def __init__(self, callee, args):
         super().__init__(NodeType.CALL_EXPR)
         self.callee = callee
         self.args = args
-    #repr
+    def __repr__(self):
+        return f"CallExpr(callee={self.callee}, args={self.args})"
 
 class NumericLiteral(Expression):
     def __init__(self, value):
@@ -94,6 +99,8 @@ class StringLiteral(Expression):
     def __init__(self, value):
         super().__init__(NodeType.STRING_LITERAL)
         self.value = value
+    def __repr__(self):
+        return f'StringLiteral("{self.value}")'
 
 class Identifier(Expression):
     def __init__(self, symbol):
@@ -126,7 +133,7 @@ class ComparisonExpr(Expression):
         self.operator = operator
         self.right = right
     def __repr__(self):
-        return f"ComparisonExpr({self.left} == {self.right})"
+        return f"ComparisonExpr({self.left} {self.operator} {self.right})"
         
 
 
