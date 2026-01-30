@@ -1,7 +1,7 @@
 import sys
 from lexer import tokenize
 from parser import Parser
-from interpreter import evaluate
+from eval.interpreter import evaluate
 from environment import Environment
 from values import TRUE, FALSE, NULL, NativeFunctionVal
 from native_functions import native_print
