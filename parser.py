@@ -211,7 +211,7 @@ class Parser:
         return left
     
     def parse_unary_expr(self):
-        if (self.current_token().value == '-'):
+        if (self.current_token().value in ('=', '!')):
             operator = self.cur_token_and_advance().value
             operand = self.parse_unary_expr()
             return UnaryExpr(operator, operand)

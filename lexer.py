@@ -17,6 +17,8 @@ class TokenType:
     GREATER_THAN_OR_EQ = "GREATER_THAN_OR_EQ"
     LESS_THAN_OR_EQ = "LESS_THAN_OR_EQ"
 
+    EXCLAMATION = "EXCLAMATION"
+
     OPEN_PAREN = "OPEN_PAREN"
     CLOSE_PAREN = "CLOSE_PAREN"
     OPEN_SQR_PAREN = "OPEN_SQR_PAREN"
@@ -103,9 +105,13 @@ def tokenize(source_code: str):
             i += 1
             continue
 
-        if (c == '!' and i + 1 < len(source) and source[i + 1] == '='):
-            tokens.append(Token("!=", TokenType.NOT_EQUALS))
-            i += 2
+        if (c == '!'):
+            if(i + 1 < len(source) and source[i + 1] == '='):
+                tokens.append(Token("!=", TokenType.NOT_EQUALS))
+                i += 2
+                continue
+            tokens.append(Token(c, TokenType.EXCLAMATION))
+            i += 1
             continue
 
         if (c == ';'):

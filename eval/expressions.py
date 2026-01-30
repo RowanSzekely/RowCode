@@ -34,6 +34,10 @@ def eval_unary_expr(node, env):
         if (operand.type != "number"):
             raise Exception("Unary '-' expects a number")
         return NumberVal(-operand.value)
+    if (node.operator == "!"):
+        if (operand.type != "boolean"):
+            raise Exception("Unary '!' expects a boolean")
+        return BoolVal(not operand.value)
 
     raise Exception(f"Unknown unary operator {node.operator}")
 
