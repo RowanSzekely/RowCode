@@ -1,6 +1,7 @@
 # Types of Tokens to look for
 class TokenType:
     NUMBER = "NUMBER"
+    STRING = "STRING"
     IDENTIFIER = "IDENTIFIER"
     BINARY_OPERATOR = "BINARY_OPERATOR"
 
@@ -165,6 +166,16 @@ def tokenize(source_code: str):
             i += 1
             continue        
 
+        if (c == '"'):
+            i += 1
+            start = i
+
+            while (i < len(source) and source[i] != '"'):
+                i += 1
+
+            tokens.append(Token(source[start:i], TokenType.STRING))
+            i += 1
+            continue
 
         # If it's an integer, add NUMBER Token
         if (c.isdigit()):

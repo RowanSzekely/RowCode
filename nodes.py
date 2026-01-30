@@ -4,6 +4,7 @@ class NodeType:
     # Statements
     PROGRAM = "PROGRAM"
     NUMERIC_LITERAL = "NUMERIC_LITERAL"
+    STRING_LITERAL = "STRING_LITERAL"
     VAR_DECLARATION = "VAR_DECLARATION"
     BLOCK = "BLOCK"
     IF_STMT = "IF_STMT"
@@ -88,6 +89,11 @@ class NumericLiteral(Expression):
         self.value = value
     def __repr__(self):
         return f"NumericLiteral({self.value})"
+    
+class StringLiteral(Expression):
+    def __init__(self, value):
+        super().__init__(NodeType.STRING_LITERAL)
+        self.value = value
 
 class Identifier(Expression):
     def __init__(self, symbol):

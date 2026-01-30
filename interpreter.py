@@ -1,5 +1,5 @@
 from nodes import Node, NodeType
-from values import NumberVal, NullVal, BoolVal, FunctionVal
+from values import NumberVal, NullVal, BoolVal, FunctionVal, StringVal
 from environment import Environment
 
 def evaluate(node, env):
@@ -8,6 +8,8 @@ def evaluate(node, env):
             return eval_program(node, env)
         case NodeType.NUMERIC_LITERAL:
             return NumberVal(node.value)
+        case NodeType.STRING_LITERAL:
+            return StringVal(node.value)
         case NodeType.BINARY_EXPR:
             return eval_binary_expr(node, env)
         case NodeType.IDENTIFIER:

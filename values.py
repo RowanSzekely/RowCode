@@ -25,6 +25,14 @@ class BoolVal(RuntimeVal):
     def __repr__(self):
         return "true" if self.value else "false"
 
+class StringVal(RuntimeVal):
+    def __init__(self, value):
+        super().__init__("string")
+        self.value = value
+    
+    def __repr__(self):
+        return self.value
+
 class FunctionVal(RuntimeVal):
     def __init__(self, params, body, env):
         super().__init__("function")

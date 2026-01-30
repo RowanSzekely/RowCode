@@ -1,4 +1,4 @@
-from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration, AssignmentExpr, Block, ComparisonExpr, IfStmt, FunctionDeclaration, CallExpr, WhileLoop
+from nodes import Node, NodeType, Program, NumericLiteral, Identifier, BinaryExpr, VarDeclaration, AssignmentExpr, Block, ComparisonExpr, IfStmt, FunctionDeclaration, CallExpr, WhileLoop, StringLiteral
 from lexer import Token, TokenType
 
 
@@ -227,7 +227,10 @@ class Parser:
             
             case TokenType.NUMBER:
                 return NumericLiteral(int(self.cur_token_and_advance().value))
-    
+
+            case TokenType.STRING:
+                return StringLiteral(self.cur_token_and_advance().value)
+            
             case TokenType.OPEN_PAREN:
                 self.advance()
                 expr = self.parse_expr()
