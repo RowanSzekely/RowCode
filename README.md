@@ -92,12 +92,12 @@ RowScript currently supports:
 - **User-defined functions**
   - Declared using `fdeclare`
   - Functions capture the environment they are defined in
-  - Functions return the last statement
+  - Functions return the last evaluated statement, unless return is used
   - Example:
     ```
     fdeclare add(a, b) {
         declare sum = a + b;
-        sum;
+        return sum;
     }
     declare sum = add(1, 2);
     ```
