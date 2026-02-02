@@ -10,6 +10,7 @@ class NodeType:
     IF_STMT = "IF_STMT"
     FUNCTION_DECLARATION = "FUNCTION_DECLARATION"
     WHILE_LOOP = "WHILE_LOOP"
+    RETURN_STMT = "RETURN_STMT"
 
     # Expressions
     IDENTIFIER = "IDENTIFIER"
@@ -34,6 +35,13 @@ class Program(Node):
         self.body = []
     def __repr__(self):
         return f"Program(body={self.body})"
+
+class ReturnStmt(Node):
+    def __init__(self, value):
+        super().__init__(NodeType.RETURN_STMT)
+        self.value = value
+    def __repr__(self):
+        return f"Return(value={self.value})"
 
 class WhileLoop(Node):
     def __init__(self, condition, body):

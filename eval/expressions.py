@@ -1,6 +1,7 @@
 from nodes import NodeType
 from values import NumberVal, NullVal, BoolVal
 from environment import Environment
+from signals import ReturnSignal
 # evaluate is imported locally to avoid circular import
 
 def eval_binary_expr(node, env):
@@ -92,10 +93,16 @@ def eval_call_expr(node, env):
         i += 1
 
     result = NullVal()
-    # eval_block() creates a new env so I'll avoid using it
-    for stmt in fn.body.body:
-        # The function body runs in the local env (call_env), not the caller's env (env)
-        result = evaluate(stmt, call_env)
+
+    # If "return" is parsed, a ReturnSignal is called, otherwise functions return the last statement evaluated
+    try:
+        # eval_block() creates a new env so I'll avoid using it
+        for stmt in fn.body.body:
+            # The function body runs in the local env (call_env), not the caller's env (env)
+            result = evaluate(stmt, call_env)
+            
+    except ReturnSignal as return_signal:
+        return return_signal.value
 
     return result
 

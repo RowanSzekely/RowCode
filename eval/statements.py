@@ -1,5 +1,6 @@
 from values import NullVal, FunctionVal
 from environment import Environment
+from signals import ReturnSignal
 # evaluate is imported locally to avoid circular import
 
 def eval_program(node, env):
@@ -90,3 +91,12 @@ def eval_var_declaration(node, env):
     value = evaluate(node.value, env)
     env.declare_var(node.identifier.value, value, node.isConst)
     return NullVal()
+
+def eval_return_stmt(node, env):
+    from .interpreter import evaluate
+
+    if (node.value is None):
+        raise ReturnSignal(NullVal())
+
+    value = evaluate(node.value, env)
+    raise ReturnSignal(value)

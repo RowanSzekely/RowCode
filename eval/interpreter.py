@@ -6,7 +6,7 @@ from .expressions import (
     )
 from .statements import (
     eval_program, eval_if_stmt, eval_block, eval_function_decl, 
-    eval_var_declaration, eval_while_loop
+    eval_var_declaration, eval_while_loop, eval_return_stmt
     )
 
 def evaluate(node, env):
@@ -39,6 +39,8 @@ def evaluate(node, env):
             return eval_function_decl(node, env)
         case NodeType.CALL_EXPR:
             return eval_call_expr(node, env)
+        case NodeType.RETURN_STMT:
+            return eval_return_stmt(node, env)
         case _:
             raise Exception(f"No evaluation rule for {node.type}")
 

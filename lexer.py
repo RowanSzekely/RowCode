@@ -36,6 +36,7 @@ class TokenType:
     WHILE = "WHILE"
 
     FDECLARE = "FDECLARE"
+    RETURN = "RETURN"
 
     EOF = "EOF"
 
@@ -53,6 +54,7 @@ KEYWORDS = {
     "elif": TokenType.ELIF,
     "else": TokenType.ELSE,
     "fdeclare": TokenType.FDECLARE,
+    "return": TokenType.RETURN,
     "while": TokenType.WHILE,
 }
 

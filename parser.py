@@ -2,7 +2,7 @@ from nodes import (
     Program, NumericLiteral, Identifier, BinaryExpr, 
     VarDeclaration, AssignmentExpr, Block, ComparisonExpr, 
     IfStmt, FunctionDeclaration, CallExpr, WhileLoop, 
-    StringLiteral, UnaryExpr
+    StringLiteral, UnaryExpr, ReturnStmt
     )
 from lexer import Token, TokenType
 
@@ -65,10 +65,23 @@ class Parser:
                 return self.parse_if_statement()
             case TokenType.OPEN_CURLY_PAREN:
                 return self.parse_block()
+            case TokenType.RETURN:
+                return self.parse_return_statement()
             case _:
                 expr = self.parse_expr()
                 self.expect(TokenType.SEMICOLON)
                 return expr
+    
+    def parse_return_statement(self):
+        self.expect(TokenType.RETURN)
+        # return;
+        if (self.current_token().type == TokenType.SEMICOLON):
+            self.advance()
+            return ReturnStmt(None)
+
+        value = self.parse_expr()
+        self.expect(TokenType.SEMICOLON)
+        return ReturnStmt(value)
     
     def parse_function_declaration(self):
         self.expect(TokenType.FDECLARE)
