@@ -95,6 +95,9 @@ def eval_var_declaration(node, env):
 def eval_return_stmt(node, env):
     from .interpreter import evaluate
 
+    if (not env.in_function):
+        raise Exception("Return statement can only be used inside a function")
+
     if (node.value is None):
         raise ReturnSignal(NullVal())
 

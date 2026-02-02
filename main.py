@@ -7,7 +7,7 @@ from values import TRUE, FALSE, NULL, NativeFunctionVal
 from native_functions import native_print
 
 def create_global_env():
-    env = Environment()
+    env = Environment(in_function=False)
     env.declare_var("true", TRUE, True)
     env.declare_var("false", FALSE, True)
     env.declare_var("null", NULL, True)

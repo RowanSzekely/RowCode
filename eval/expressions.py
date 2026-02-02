@@ -77,7 +77,7 @@ def eval_call_expr(node, env):
         raise Exception("Incorrect number of arguments")
 
     # An env to hold local variables and params
-    call_env = Environment(parent=fn.env)
+    call_env = Environment(parent=fn.env, in_function=True)
 
     # Setting up the params
     i = 0

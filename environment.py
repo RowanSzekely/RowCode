@@ -1,9 +1,10 @@
 
 class Environment:
-    def __init__(self, parent = None):
+    def __init__(self, parent=None, in_function=False):
         self.parent = parent
         self.variables = {}
         self.constants = set()
+        self.in_function = in_function
 
     def declare_var(self, name, value, isConst = False):
         if (name in self.variables):
