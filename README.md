@@ -35,14 +35,14 @@ RowScript currently supports:
   - `+`, `-`, `*`, `/`, `%`
   - Example:
     ```
-    declare sum = 1 + 2 * 3;
+    declare result = 1 + 2 * 3;
     ```
   
 - **Unary operations**
   - `-`, `!`
-  - Example (In this example sum is set to -20 and x to false):
+  - Example (In this example product is set to -20 and x to false):
     ```
-    declare sum = -10 * 2;
+    declare product = -10 * 2;
     declare x = !true;
     ```
 
@@ -92,10 +92,12 @@ RowScript currently supports:
 - **User-defined functions**
   - Declared using `fdeclare`
   - Functions capture the environment they are defined in
+  - Functions return the last statement
   - Example:
     ```
     fdeclare add(a, b) {
-        a + b;
+        declare sum = a + b;
+        sum;
     }
     declare sum = add(1, 2);
     ```
