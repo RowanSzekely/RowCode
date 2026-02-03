@@ -2,7 +2,8 @@ from nodes import NodeType
 from values import NumberVal, StringVal
 from .expressions import (
     eval_comp_expr, eval_assignment_expr, eval_binary_expr, 
-    eval_call_expr, eval_identifier, eval_unary_expr, eval_array_literal
+    eval_call_expr, eval_identifier, eval_unary_expr, eval_array_literal,
+    eval_index_expr
     )
 from .statements import (
     eval_program, eval_if_stmt, eval_block, eval_function_decl, 
@@ -43,6 +44,8 @@ def evaluate(node, env):
             return eval_return_stmt(node, env)
         case NodeType.ARRAY_LITERAL:
             return eval_array_literal(node, env)
+        case NodeType.INDEX_EXPR:
+            return eval_index_expr(node, env)
         case _:
             raise Exception(f"No evaluation rule for {node.type}")
 

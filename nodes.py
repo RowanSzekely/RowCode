@@ -14,6 +14,7 @@ class NodeType:
     NUMERIC_LITERAL = "NUMERIC_LITERAL"
     STRING_LITERAL = "STRING_LITERAL"
     ARRAY_LITERAL = "ARRAY_LITERAL"
+    INDEX_EXPR = "INDEX_EXPR"
     IDENTIFIER = "IDENTIFIER"
     BINARY_EXPR = "BINARY_EXPR"
     ASSIGNMENT_EXPR = "ASSIGNMENT_EXPR"
@@ -126,6 +127,14 @@ class ArrayLiteral(Expression):
         self.elements = elements
     def __repr__(self):
         return f'ArrayLiteral([{self.elements}])'
+
+class IndexExpr(Expression):
+    def __init__(self, array, index):
+        super().__init__(NodeType.INDEX_EXPR)
+        self.array = array
+        self.index = index
+    def __repr__(self):
+        return f'IndexExpression({self.array}[{self.index}])'
 
 class Identifier(Expression):
     def __init__(self, symbol):

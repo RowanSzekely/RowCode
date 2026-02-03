@@ -2,7 +2,8 @@ from nodes import (
     Program, NumericLiteral, Identifier, BinaryExpr, 
     VarDeclaration, AssignmentExpr, Block, ComparisonExpr, 
     IfStmt, FunctionDeclaration, CallExpr, WhileLoop, 
-    StringLiteral, UnaryExpr, ReturnStmt, ArrayLiteral
+    StringLiteral, UnaryExpr, ReturnStmt, ArrayLiteral,
+    IndexExpr
     )
 from lexer import Token, TokenType
 
@@ -238,6 +239,7 @@ class Parser:
             case TokenType.IDENTIFIER:
                 identifier = Identifier(self.cur_token_and_advance().value)
 
+                # Function calls
                 if(self.current_token().type == TokenType.OPEN_PAREN):
                     self.advance()
                     args = []
@@ -248,7 +250,15 @@ class Parser:
                             self.advance()
                             args.append(self.parse_expr())
                     self.expect(TokenType.CLOSE_PAREN)
-                    return CallExpr(identifier, args)
+                    identifier = CallExpr(identifier, args)
+
+                # Array indexing
+                while (self.current_token().type == TokenType.OPEN_SQR_PAREN):
+                    self.advance()
+                    index_expr = self.parse_expr()
+                    self.expect(TokenType.CLOSE_SQR_PAREN)
+                    identifier = IndexExpr(identifier, index_expr)
+
                 return identifier
             
             case TokenType.NUMBER:

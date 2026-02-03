@@ -45,12 +45,26 @@ def eval_unary_expr(node, env):
 def eval_assignment_expr(node, env):
     from .interpreter import evaluate
 
+    if (node.assignee.type == NodeType.IDENTIFIER):
+        value = evaluate(node.value, env)
+        env.assign_var(node.assignee.symbol, value)
+        return value
+    
+    if (node.assignee.type == NodeType.INDEX_EXPR):
+        value = evaluate(node.value, env)
+        array_val = evaluate(node.assignee.array, env)
+        index_val = evaluate(node.assignee.index, env)
+
+        if (array_val.type != "array"):
+            raise Exception("Can only index arrays")
+        if (index_val.type != "number"):
+            raise Exception("Array index must be a number")
+
+        array_val.elements[index_val.value] = value
+        return value
+    
     # To make sure something like (1+2) = 5 isn't allowed
-    if (node.assignee.type != NodeType.IDENTIFIER):
-        raise Exception("Invalid assignment target")
-    value = evaluate(node.value, env)
-    env.assign_var(node.assignee.symbol, value)
-    return value
+    raise Exception("Invalid assignment target")
 
 def eval_call_expr(node, env):
     from .interpreter import evaluate
@@ -147,3 +161,16 @@ def eval_array_literal(node, env):
         value = evaluate(element, env)
         elements.append(value)
     return ArrayVal(elements)
+
+def eval_index_expr(node, env):
+    from .interpreter import evaluate
+
+    array_val = evaluate(node.array, env)
+    index_val = evaluate(node.index, env)
+
+    if (array_val.type != "array"):
+        raise Exception("Can only index arrays")
+    if (index_val.type != "number"):
+        raise Exception("Array index must be a number")
+
+    return array_val.elements[index_val.value]
