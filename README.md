@@ -117,3 +117,17 @@ RowScript currently supports:
   - Single-line comments: `//`
   - Multi-line comments: `/* ... */`
 
+- **Arrays**
+  - Declared using square brackets
+  - Arrays can be nested
+  - Array elements can be accessed and assigned using 0-based indexing
+  - Arrays can store values of any type
+  - Example:
+    ```
+    declare inner = [1, 2];
+    declare outer = [1, 2, 3, inner, "Hello"];
+    print(outer[0]);
+    outer[3][1] = 77;
+    ```
+
+
