@@ -1,5 +1,5 @@
 from nodes import NodeType
-from values import NumberVal, NullVal, BoolVal
+from values import NumberVal, NullVal, BoolVal, ArrayVal
 from environment import Environment
 from signals import ReturnSignal
 # evaluate is imported locally to avoid circular import
@@ -138,3 +138,12 @@ def eval_comp_expr(node, env):
     
 def eval_identifier(node, env):
     return env.lookup_var(node.symbol)
+
+def eval_array_literal(node, env):
+    from .interpreter import evaluate
+
+    elements = []
+    for element in node.elements:
+        value = evaluate(element, env)
+        elements.append(value)
+    return ArrayVal(elements)

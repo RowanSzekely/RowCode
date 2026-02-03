@@ -2,7 +2,7 @@ from nodes import (
     Program, NumericLiteral, Identifier, BinaryExpr, 
     VarDeclaration, AssignmentExpr, Block, ComparisonExpr, 
     IfStmt, FunctionDeclaration, CallExpr, WhileLoop, 
-    StringLiteral, UnaryExpr, ReturnStmt
+    StringLiteral, UnaryExpr, ReturnStmt, ArrayLiteral
     )
 from lexer import Token, TokenType
 
@@ -267,6 +267,19 @@ class Parser:
                 
                 self.advance() 
                 return expr
+            
+            case TokenType.OPEN_SQR_PAREN:
+                self.advance()
+                elements = []
+
+                if (self.current_token().type != TokenType.CLOSE_SQR_PAREN):
+                    elements.append(self.parse_expr())
+                    while (self.current_token().type == TokenType.COMMA):
+                        self.advance()
+                        elements.append(self.parse_expr())
+
+                self.expect(TokenType.CLOSE_SQR_PAREN)
+                return ArrayLiteral(elements)
 
             case _:
                 raise Exception(f"Unexpected token: {self.current_token()}")

@@ -3,8 +3,6 @@ class NodeType:
 
     # Statements
     PROGRAM = "PROGRAM"
-    NUMERIC_LITERAL = "NUMERIC_LITERAL"
-    STRING_LITERAL = "STRING_LITERAL"
     VAR_DECLARATION = "VAR_DECLARATION"
     BLOCK = "BLOCK"
     IF_STMT = "IF_STMT"
@@ -13,6 +11,9 @@ class NodeType:
     RETURN_STMT = "RETURN_STMT"
 
     # Expressions
+    NUMERIC_LITERAL = "NUMERIC_LITERAL"
+    STRING_LITERAL = "STRING_LITERAL"
+    ARRAY_LITERAL = "ARRAY_LITERAL"
     IDENTIFIER = "IDENTIFIER"
     BINARY_EXPR = "BINARY_EXPR"
     ASSIGNMENT_EXPR = "ASSIGNMENT_EXPR"
@@ -118,6 +119,13 @@ class StringLiteral(Expression):
         self.value = value
     def __repr__(self):
         return f'StringLiteral("{self.value}")'
+
+class ArrayLiteral(Expression):
+    def __init__(self, elements):
+        super().__init__(NodeType.ARRAY_LITERAL)
+        self.elements = elements
+    def __repr__(self):
+        return f'ArrayLiteral([{self.elements}])'
 
 class Identifier(Expression):
     def __init__(self, symbol):

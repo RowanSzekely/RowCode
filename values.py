@@ -52,6 +52,14 @@ class NativeFunctionVal(RuntimeVal):
     def __repr__(self):
         return "<native function>"
 
+class ArrayVal(RuntimeVal):
+    def __init__(self, elements):
+        super().__init__("array")
+        self.elements = elements
+    def __repr__(self):
+        # return "[" + ", ".join(str(el) for el in self.elements) + "]"
+        return f"{self.elements}"
+
 TRUE = BoolVal(True)
 FALSE = BoolVal(False)
 NULL = NullVal()
