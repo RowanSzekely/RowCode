@@ -20,7 +20,7 @@ def eval_binary_expr(node, env):
     if (node.operator == "*"):
         return NumberVal(left.value * right.value)
     if (node.operator == "/"):
-        return NumberVal(left.value // right.value)
+        return NumberVal(left.value / right.value)
     if (node.operator == "%"):
         return NumberVal(left.value % right.value)
     

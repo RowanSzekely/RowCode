@@ -262,7 +262,12 @@ class Parser:
                 return identifier
             
             case TokenType.NUMBER:
-                return NumericLiteral(int(self.cur_token_and_advance().value))
+                raw = self.cur_token_and_advance().value
+                # raw gets changed from a string to a float or int
+                if ("." in raw):
+                    return NumericLiteral(float(raw))
+                
+                return NumericLiteral(int(raw))
 
             case TokenType.STRING:
                 return StringLiteral(self.cur_token_and_advance().value)

@@ -191,6 +191,12 @@ def tokenize(source_code: str):
 
             while (i < len(source) and source[i].isdigit()):
                 i += 1
+            # For now only allow one period
+            if (i < len(source) and source[i] == '.'):
+                i += 1
+                while (i < len(source) and source[i].isdigit()):
+                    i += 1
+
             tokens.append(Token(source[start:i], TokenType.NUMBER))
             continue
 

@@ -141,5 +141,13 @@ RowScript currently supports:
     print(outer[0]);
     outer[3][1] = 77;
     ```
+- **Floats**
+  - Arithmetic between integers and floats is allowed
+  - Example (c becomes 3.5):
+    ```
+    declare a = 2.5;
+    declare b = 1;
+    declare c = a + b;
+    ```
 
 
