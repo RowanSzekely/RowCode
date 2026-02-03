@@ -112,6 +112,12 @@ RowScript currently supports:
         declare age = "44"
         print("My name is ", name, " and my age is ", age);
         ```
+    - `length(arr)`
+      - Example (This will print: 3):
+        ```
+        declare arr = [1,2,3];
+        print(length(arr));
+        ```
 
 - **Comments**
   - Single-line comments: `//`
