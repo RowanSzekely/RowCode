@@ -118,6 +118,12 @@ RowScript currently supports:
         declare arr = [1,2,3];
         print(length(arr));
         ```
+    - `random(min, max)`
+      - Returns a random integer between min and max inclusive
+      - Example:
+        ```
+        declare randomVal = random(1, 10);
+        ```
 
 - **Comments**
   - Single-line comments: `//`

@@ -4,7 +4,7 @@ from parser import Parser
 from eval.interpreter import evaluate
 from environment import Environment
 from values import TRUE, FALSE, NULL, NativeFunctionVal
-from native_functions import native_print, native_length
+from native_functions import native_print, native_length, native_random
 
 def create_global_env():
     env = Environment(in_function=False)
@@ -13,6 +13,7 @@ def create_global_env():
     env.declare_var("null", NULL, True)
     env.declare_var("print", NativeFunctionVal(native_print), True)
     env.declare_var("length", NativeFunctionVal(native_length), True)
+    env.declare_var("random", NativeFunctionVal(native_random), True)
     return env
 
 env = create_global_env()
