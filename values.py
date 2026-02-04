@@ -57,7 +57,6 @@ class ArrayVal(RuntimeVal):
         super().__init__("array")
         self.elements = elements
     def __repr__(self):
-        # return "[" + ", ".join(str(el) for el in self.elements) + "]"
         return f"{self.elements}"
 
 TRUE = BoolVal(True)

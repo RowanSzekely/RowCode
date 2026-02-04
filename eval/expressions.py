@@ -59,6 +59,8 @@ def eval_assignment_expr(node, env):
             raise Exception("Can only index arrays")
         if (index_val.type != "number"):
             raise Exception("Array index must be a number")
+        if (index_val.value < 0 or index_val.value >= len(array_val.elements)):
+            raise Exception("Array index out of bounds")
 
         array_val.elements[index_val.value] = value
         return value
@@ -172,5 +174,7 @@ def eval_index_expr(node, env):
         raise Exception("Can only index arrays")
     if (index_val.type != "number"):
         raise Exception("Array index must be a number")
+    if (index_val.value < 0 or index_val.value >= len(array_val.elements)):
+        raise Exception("Array index out of bounds")
 
     return array_val.elements[index_val.value]
